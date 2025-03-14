@@ -1,14 +1,14 @@
-FROM python:3.11-slim
+FROM python:3.11-slim AS base
+
+RUN pip install --no-cache-dir uvicorn
 
 WORKDIR /app
 
+
 COPY . .
 
-RUN pip install --no-cache-dir pip-tools
+RUN uv venv && uv sync
 
-# Instalar dependências do pyproject.toml
-RUN pip-compile pyproject.toml --output-file=requirements.txt && \
-    pip install --no-cache-dir -r requirements.txt
-
+ENV PATH="/app/.venv/bin:$PATH"
 
 CMD ["streamlit", "run", "app.py"]
