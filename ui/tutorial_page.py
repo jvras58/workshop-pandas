@@ -108,3 +108,49 @@ print("Dataset final após todas as operações:")
 print(df_final.head())
     '''
     st.code(code_tutorial_4, language='python')
+
+    st.subheader("Exemplo: Integrando Pandas e NumPy")
+    code_tutorial_5 = '''
+import numpy as np
+
+# Convertendo dados do DataFrame para array NumPy
+idade_array = df_cleaned['Age'].to_numpy()
+print("Array NumPy de idades:")
+print(idade_array[:10])  # Primeiros 10 elementos
+
+# Cálculos estatísticos com NumPy
+print(f"Média das idades: {np.mean(idade_array):.2f}")
+print(f"Mediana das idades: {np.median(idade_array):.2f}")
+print(f"Desvio padrão das idades: {np.std(idade_array):.2f}")
+print(f"Percentil 25% das idades: {np.percentile(idade_array, 25):.2f}")
+print(f"Percentil 75% das idades: {np.percentile(idade_array, 75):.2f}")
+
+# Usando funções NumPy para transformar dados
+# Normalizando a coluna de tarifas
+fare_array = df_cleaned['Fare'].to_numpy()
+fare_normalized = (fare_array - np.min(fare_array)) / (np.max(fare_array) - np.min(fare_array))
+df_cleaned['Fare_Normalized'] = fare_normalized
+print("Primeiras linhas com tarifas normalizadas:")
+print(df_cleaned[['Fare', 'Fare_Normalized']].head())
+
+# Criando uma matriz de correlação usando NumPy
+numeric_cols = ['Age', 'Fare', 'Pclass', 'SibSp', 'Parch', 'Survived']
+correlation_matrix = np.corrcoef(df_cleaned[numeric_cols].to_numpy().T)
+print("Matriz de correlação das variáveis numéricas:")
+print(correlation_matrix)
+
+# Criando categorias de idade com NumPy
+age_bins = np.array([0, 12, 18, 35, 60, 100])
+age_labels = ['Criança', 'Adolescente', 'Adulto Jovem', 'Adulto', 'Idoso']
+df_cleaned['Age_Category'] = pd.cut(df_cleaned['Age'], bins=age_bins, labels=age_labels)
+print("Distribuição por categoria de idade:")
+print(df_cleaned['Age_Category'].value_counts())
+
+# Análise de sobrevivência por grupo etário usando NumPy e Pandas
+survival_by_age = df_cleaned.groupby('Age_Category')['Survived'].agg(['count', 'mean'])
+survival_by_age['mean'] = np.round(survival_by_age['mean'] * 100, 1)  # Convertendo para percentual
+survival_by_age.columns = ['Total', 'Taxa de Sobrevivência (%)']
+print("Taxa de sobrevivência por grupo etário:")
+print(survival_by_age)
+    '''
+    st.code(code_tutorial_5, language='python')

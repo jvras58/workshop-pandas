@@ -115,6 +115,53 @@ def render_challenge_page():
         with st.expander("Clique para visualizar a saída"):
             st.code(result, language='python')
 
+
+    # Seção aberta
+    st.markdown("---")
+    st.subheader("Código Livre")
+    st.write("""
+    **Experimente seus próprios comandos:**  
+    Escreva qualquer código Python usando as variáveis criadas anteriormente.
+    Todas as variáveis definidas nos blocos executados estão disponíveis neste ambiente.
+    """)
+    free_code = st_ace(
+        value='''# Exemplo: visualizar informações do dataset
+if 'df_cleaned' in globals():
+    print("Informações do dataset:")
+    print(df_cleaned.describe())
+else:
+    print("Execute os blocos anteriores para criar o dataset primeiro")
+
+# Exemplo: Com o uso do NumPy e Pandas
+import numpy as np
+import pandas as pd
+
+
+# Exemplo: Crie um exemplo simples usando o numpy mas usando o dataframe anterior
+fare_array = df_cleaned['Fare'].values
+fare_mean = np.mean(fare_array)
+print("Média da tarifa:", fare_mean)
+
+# Exemplo: crie uma nova coluna com a soma de SibSp e Parch
+df_cleaned['FamilySize'] = df_cleaned['SibSp'] + df_cleaned['Parch']
+print("Dataset com nova coluna 'FamilySize':")
+print(df_cleaned.head())
+
+''',
+        language='python',
+        theme='monokai',
+        key="ace_editor_free",
+        height=250
+    )
+
+    if st.button("Executar Código", key="executar_livre"):
+        with st.spinner("Executando seu código..."):
+            result_livre = run_code(free_code, global_env)
+        st.markdown("### Saída do Código")
+        with st.expander("Clique para visualizar a saída"):
+            st.code(result_livre, language='python')
+
+
     st.markdown("---")
     st.subheader("Desafio Final")
     st.write("""
