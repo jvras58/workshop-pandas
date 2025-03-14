@@ -1,9 +1,8 @@
 FROM python:3.11-slim AS base
 
-RUN pip install --no-cache-dir uvicorn
+RUN pip install --no-cache-dir uv 
 
 WORKDIR /app
-
 
 COPY . .
 
