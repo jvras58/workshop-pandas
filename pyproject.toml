@@ -1,7 +1,8 @@
 [project]
 name = "wirehause-sample"
 version = "0.1.0"
-description = "Add your description here"
+description = "Repositorio demonstrativo para a WireHause"
+authors = ["jvras <jvras58@gmail.com>"]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
